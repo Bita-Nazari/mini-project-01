@@ -84,3 +84,22 @@ precision_result_df = pd.DataFrame({
 print(precision_result_df)
 
 #endregion
+
+recall_logistic_t_model = recall_score(y_train,y_pred_t_logistic)
+recall_knn_t_model = recall_score(y_train,y_pred_t_knn)
+recall_tree_t_model = recall_score(y_train,y_pred_t_decision_tree)
+
+recall_logistic_model = recall_score(y_test,y_pred_logistic)
+recall_knn_model = recall_score(y_test,y_pred_knn)
+recall_tree_model = recall_score(y_test,y_pred_decision_tree)
+
+recall_train_array = np.array((recall_logistic_t_model ,recall_knn_t_model,recall_tree_t_model))
+recall_test_array = np.array((recall_logistic_model ,recall_knn_model,recall_tree_model))
+
+recall_result_df = pd.DataFrame({
+    'Models' : Models,
+    'Recall Train' : recall_train_array,
+    'Recall Test' : recall_test_array
+})
+
+print(recall_result_df)
