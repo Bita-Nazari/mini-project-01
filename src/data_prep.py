@@ -52,9 +52,10 @@ print('outliers_count',outliers_count ,' | outliers_fraud_count : ' , outliers_f
 #Base on this information most of the amount outliers are not fraud
 #but bc the total fraud count of samples in  datasets is 492,we can hypothesize amount it can be one of the importent feature for being fraud
 
+X = credit_card_df.drop('Class' ,axis =1)
+y = credit_card_df['Class']
 def get_data():
-    X = credit_card_df.drop('Class' ,axis =1)
-    y = credit_card_df['Class']
+
     
     X_train,X_test,y_train,y_test = train_test_split(
         X,
@@ -66,5 +67,8 @@ def get_data():
     return X_train,X_test,y_train,y_test
     
 
+def get_whole_data():
 
+    return X,y
+    
 #endregion

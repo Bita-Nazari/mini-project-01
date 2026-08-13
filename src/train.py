@@ -3,7 +3,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from data_prep import get_data
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix,f1_score,recall_score,precision_score,accuracy_score
+from sklearn.model_selection import cross_val_score
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay,f1_score,recall_score,precision_score,accuracy_score
 import joblib
 import pandas as pd
 import numpy as np
@@ -59,10 +61,8 @@ acc_result_df = pd.DataFrame({
 })
 
 print(acc_result_df)
-
-print('\n')
 #endregion
-
+print('\n')
 #region Precision
 precision_logistic_t_model = precision_score(y_train,y_pred_t_logistic)
 precision_knn_t_model = precision_score(y_train,y_pred_t_knn)
@@ -84,7 +84,8 @@ precision_result_df = pd.DataFrame({
 print(precision_result_df)
 
 #endregion
-
+print('\n')
+#region Precision
 recall_logistic_t_model = recall_score(y_train,y_pred_t_logistic)
 recall_knn_t_model = recall_score(y_train,y_pred_t_knn)
 recall_tree_t_model = recall_score(y_train,y_pred_t_decision_tree)
@@ -103,3 +104,47 @@ recall_result_df = pd.DataFrame({
 })
 
 print(recall_result_df)
+
+#endregion
+
+#region f2_score
+
+f1_sore_logistic_t_model = f1_score(y_train,y_pred_t_logistic)
+f1_sore_knn_t_model = f1_score(y_train,y_pred_t_knn)
+f1_sore_tree_t_model = f1_score(y_train,y_pred_t_decision_tree)
+
+f1_sore_logistic_model = f1_score(y_test,y_pred_logistic)
+f1_sore_knn_model = f1_score(y_test,y_pred_knn)
+f1_sore_tree_model = f1_score(y_test,y_pred_decision_tree)
+
+f1_score_train_array = np.array((f1_sore_logistic_t_model ,f1_sore_knn_t_model,f1_sore_tree_t_model),dtype=float)
+f1_score_test_array = np.array((f1_sore_logistic_model ,f1_sore_knn_model,f1_sore_tree_model),dtype=float)
+
+f1_score_result_df = pd.DataFrame({
+    'Models' :Models,
+    'f1 Train' : f1_score_train_array,
+    'f1 Test' : f1_score_test_array
+})
+
+print(f1_score_result_df)
+#endregion
+
+print('\n')
+# region Confusion matrix
+confution_matrix_logistic = confusion_matrix(y_train,y_pred_t_logistic)
+confution_matrix_knn = confusion_matrix(y_train,y_pred_t_knn)
+confution_matrix_decision_tree = confusion_matrix(y_train,y_pred_t_decision_tree)
+
+print('Logistic : \n',confution_matrix_logistic)
+print('Knn : \n',confution_matrix_knn)
+print('Decision Tress : \n',confution_matrix_decision_tree)
+
+ConfusionMatrixDisplay(confution_matrix_logistic).plot()
+#plt.show()
+ConfusionMatrixDisplay(confution_matrix_knn).plot()
+#plt.show()
+ConfusionMatrixDisplay(confution_matrix_decision_tree).plot()
+#plt.show()
+
+#endregion
+
