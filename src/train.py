@@ -32,6 +32,13 @@ decision_tree_model.fit(X_train_scaled,y_train)
 y_pred_decision_tree= decision_tree_model.predict(X_test_scaled)
 y_pred_t_decision_tree = decision_tree_model.predict(X_train_scaled)
 
+Models = np.array((
+        'Logistic Regression',
+        'Knn Model',
+        'Decision tree'
+    ),
+    dtype= str)
+
 #region accuracy
 acc_logistic_t_model = accuracy_score(y_train,y_pred_t_logistic)
 acc_knn_t_model = accuracy_score(y_train,y_pred_t_knn)
@@ -45,16 +52,35 @@ accuracy_train_array = np.array((acc_logistic_t_model,acc_knn_t_model,acc_tree_t
 accuracy_test_array = np.array((acc_logistic_model,acc_knn_model,acc_tree_model),dtype=float)
 acc_result_df = pd.DataFrame({
     
-    'Models' :[
-        'Logistic Regression',
-        'Knn Model',
-        'Decision tree'
-    ],
+    'Models' :Models,
     'accurecy train' :accuracy_train_array,
     'accurecy test' : accuracy_test_array
     
 })
 
 print(acc_result_df)
+
+print('\n')
+#endregion
+
+#region Precision
+precision_logistic_t_model = precision_score(y_train,y_pred_t_logistic)
+precision_knn_t_model = precision_score(y_train,y_pred_t_knn)
+precision_tree_t_model = precision_score(y_train,y_pred_t_decision_tree)
+
+precision_logistic_model = precision_score(y_test,y_pred_logistic)
+precision_knn_model = precision_score(y_test,y_pred_knn)
+precision_tree_model = precision_score(y_test,y_pred_decision_tree)
+
+precision_train_array = np.array((precision_logistic_t_model ,precision_knn_t_model,precision_tree_t_model),dtype=float)
+precision_test_array = np.array((precision_logistic_model ,precision_knn_model,precision_tree_model),dtype=float)
+
+precision_result_df = pd.DataFrame({
+    'Models' :Models,
+    'Precision Train' : precision_train_array,
+    'Precision Test' : precision_test_array
+})
+
+print(precision_result_df)
 
 #endregion
