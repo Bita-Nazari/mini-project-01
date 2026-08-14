@@ -176,3 +176,23 @@ cross_validation_result = pd.DataFrame({
     
 })
 print(cross_validation_result)
+
+knn_model_unscaled = KNeighborsClassifier(n_neighbors=5)
+
+knn_model_unscaled.fit(X_train,y_train)
+y_perd_knn_unscaled = knn_model_unscaled.predict(X_test)
+
+knn_unscaled_precision = precision_score(y_test,y_perd_knn_unscaled)
+knn_unscaled_recall = recall_score(y_test,y_perd_knn_unscaled)
+knn_unscaled_f1 = f1_score(y_test,y_perd_knn_unscaled)
+
+print(knn_unscaled_precision,knn_unscaled_recall,knn_unscaled_f1)
+
+knn_unscaled_df = pd.DataFrame({
+    'Model' : ['knn','knn'],
+    'Model' : ['Without scaling','With scaling'],
+    'Precision' : [knn_unscaled_precision , precision_knn_model],
+    'Recall' : [knn_unscaled_recall , recall_knn_model],
+    'F1' : [knn_unscaled_f1 , f1_sore_knn_model]
+})
+print(knn_unscaled_df)
