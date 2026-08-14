@@ -176,3 +176,56 @@ cross_validation_result = pd.DataFrame({
     
 })
 print(cross_validation_result)
+
+knn_model_unscaled = KNeighborsClassifier(n_neighbors=5)
+
+knn_model_unscaled.fit(X_train,y_train)
+y_perd_knn_unscaled = knn_model_unscaled.predict(X_test)
+
+knn_unscaled_precision = precision_score(y_test,y_perd_knn_unscaled)
+knn_unscaled_recall = recall_score(y_test,y_perd_knn_unscaled)
+knn_unscaled_f1 = f1_score(y_test,y_perd_knn_unscaled)
+
+print(knn_unscaled_precision,knn_unscaled_recall,knn_unscaled_f1)
+
+knn_unscaled_df = pd.DataFrame({
+    'Model' : ['knn','knn'],
+    'Model' : ['Without scaling','With scaling'],
+    'Precision' : [knn_unscaled_precision , precision_knn_model],
+    'Recall' : [knn_unscaled_recall , recall_knn_model],
+    'F1' : [knn_unscaled_f1 , f1_sore_knn_model]
+})
+print(knn_unscaled_df)
+
+
+#region Hyperparameter Analysis
+n_neighbors = np.array((1,5,20))
+
+knn_precisions= []
+knn_recalls =[]
+knn_f1scores = []
+
+for i in n_neighbors:
+    knn_model_ht = KNeighborsClassifier(n_neighbors=i)
+    knn_model_ht.fit(X_train_scaled,y_train)
+    y_pred_knn_ht=knn_model_ht.predict(X_test_scaled)
+    
+    precision_knn_ht = precision_score(y_test,y_pred_knn_ht)
+    knn_precisions.append(precision_knn_ht)
+    
+    recall_knn_ht = recall_score(y_test,y_pred_knn_ht)
+    knn_recalls.append(recall_knn_ht)
+    
+    f1_knn_ht = precision_score(y_test,y_pred_knn_ht)
+    knn_f1scores.append(f1_knn_ht)
+    
+knn_result_ht_df = pd.DataFrame({
+    'Parameter Value' : n_neighbors,
+    'Precision' :knn_precisions,
+    'Recall' :knn_recalls,
+    'F1' : knn_f1scores
+})
+
+print(knn_result_ht_df)
+    
+#endregion
