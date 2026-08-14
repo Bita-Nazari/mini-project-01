@@ -1,15 +1,15 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from data_prep import get_data
+from data_prep import get_data,get_whole_data
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score,cross_validate
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay,f1_score,recall_score,precision_score,accuracy_score
 import joblib
 import pandas as pd
 import numpy as np
-
+from sklearn.pipeline import Pipeline
 
 X_train,X_test,y_train,y_test = get_data()
 
@@ -29,7 +29,7 @@ knn_model.fit(X_train_scaled,y_train)
 y_pred_knn = knn_model.predict(X_test_scaled)
 y_pred_t_knn = knn_model.predict(X_train_scaled)
 
-decision_tree_model = DecisionTreeClassifier(max_depth=6)
+decision_tree_model = DecisionTreeClassifier(max_depth=5)
 decision_tree_model.fit(X_train_scaled,y_train)
 y_pred_decision_tree= decision_tree_model.predict(X_test_scaled)
 y_pred_t_decision_tree = decision_tree_model.predict(X_train_scaled)
@@ -126,7 +126,7 @@ f1_score_result_df = pd.DataFrame({
     'f1 Test' : f1_score_test_array
 })
 
-print(f1_score_result_df)
+print(f1_score_result_df)   
 #endregion
 
 print('\n')
@@ -147,4 +147,32 @@ ConfusionMatrixDisplay(confution_matrix_decision_tree).plot()
 #plt.show()
 
 #endregion
+X,y = get_whole_data()
+pipeline_logistic = Pipeline([('scaler' ,StandardScaler()),
+                    ('Logistic Model' , LogisticRegression())])
+pipeline_knn =Pipeline([('scaler' , StandardScaler()),
+                        ('Knn model' , KNeighborsClassifier(n_neighbors=5))])
+scores_knn = cross_validate(pipeline_knn,X,y,cv=5 ,scoring=('accuracy' , 'recall' ,'precision','f1'))
 
+pipeline_decision_tree =Pipeline([('scaler',StandardScaler()),
+                                ('Decision tree' ,DecisionTreeClassifier(max_depth=5))])
+scores_decision_tree = cross_validate(pipeline_decision_tree,X,y,scoring=('accuracy','recall','precision','f1'))
+
+scores_logistic = cross_validate(pipeline_logistic , X,y,cv=5,scoring=('accuracy','recall','precision','f1'))
+
+scores_accuracy_array =np.array((scores_logistic['test_accuracy'].mean(),scores_knn['test_accuracy'].mean(),scores_decision_tree['test_accuracy'].mean())) 
+
+scores_recall_array =np.array((scores_logistic['test_recall'].mean(),scores_knn['test_recall'].mean(),scores_decision_tree['test_recall'].mean())) 
+scores_precision_array =np.array((scores_logistic['test_precision'].mean(),scores_knn['test_precision'].mean(),scores_decision_tree['test_precision'].mean())) 
+scores_f1_array =np.array((scores_logistic['test_f1'].mean(),scores_knn['test_f1'].mean(),scores_decision_tree['test_f1'].mean())) 
+
+
+cross_validation_result = pd.DataFrame({
+    'Models':Models,
+    'Mean accuracy' : scores_accuracy_array,
+    'Mean Recall' : scores_recall_array,
+    'Mean Precision' : scores_precision_array,
+    'Mean F1':scores_f1_array 
+    
+})
+print(cross_validation_result)
