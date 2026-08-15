@@ -228,4 +228,65 @@ knn_result_ht_df = pd.DataFrame({
 
 print(knn_result_ht_df)
     
+    
+max_depthes = [2,5,10,None]
+
+Decision_tree_precisions= []
+Decision_tree_recalls =[]
+Decision_tree_f1scores = [] 
+
+for i in max_depthes:
+    Decision_tree_model_ht = DecisionTreeClassifier(max_depth=i)
+    Decision_tree_model_ht.fit(X_train_scaled,y_train)
+    y_pred_Decision_tree_ht=Decision_tree_model_ht.predict(X_test_scaled)
+    
+    precision_Decision_tree_ht = precision_score(y_test,y_pred_Decision_tree_ht)
+    Decision_tree_precisions.append(precision_Decision_tree_ht)
+    
+    recall_Decision_tree_ht = recall_score(y_test,y_pred_Decision_tree_ht)
+    Decision_tree_recalls.append(recall_Decision_tree_ht)
+    
+    f1_Decision_tree_ht = precision_score(y_test,y_pred_Decision_tree_ht)
+    Decision_tree_f1scores.append(f1_Decision_tree_ht)
+    
+Decision_tree_result_ht_df = pd.DataFrame({
+    'Parameter Value' : max_depthes,
+    'Precision' :Decision_tree_precisions,
+    'Recall' :Decision_tree_recalls,
+    'F1' : Decision_tree_f1scores
+})
+
+print(Decision_tree_result_ht_df)
+
+
+Thresholds =[0.3,0.5,0.7]
+Logistic_regression_precisions= []
+Logistic_regression_recalls =[]
+Logistic_regression_f1scores = [] 
+
+for i in Thresholds:
+    Logistic_regression_model_ht = LogisticRegression()
+    Logistic_regression_model_ht.fit(X_train_scaled,y_train)
+    proba =Logistic_regression_model_ht.predict_proba(X_test_scaled)[:,1]
+    y_pred_Logistic_regression_ht = Logistic_regression_model_ht.predict(X_test_scaled)
+    y_pred_Logistic_regression_ht = (proba >= i).astype(int)
+    
+    Logistic_regression_ht = precision_score(y_test,y_pred_Logistic_regression_ht)
+    Logistic_regression_precisions.append(Logistic_regression_ht)
+    
+    recall_Logistic_regression_ht = recall_score(y_test,y_pred_Logistic_regression_ht)
+    Logistic_regression_recalls.append(recall_Logistic_regression_ht)
+    
+    Logistic_regression_ht = precision_score(y_test,y_pred_Logistic_regression_ht)
+    Logistic_regression_f1scores.append(Logistic_regression_ht)
+    
+Logistic_regression_result_ht_df = pd.DataFrame({
+'Parameter Value' : Thresholds,
+'Precision' :Logistic_regression_precisions,
+'Recall' :Logistic_regression_recalls,
+'F1' : Logistic_regression_f1scores
+})
+
+print(Logistic_regression_result_ht_df)
+
 #endregion
