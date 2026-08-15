@@ -1,8 +1,8 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from data_prep import get_data,get_whole_data
 from sklearn.preprocessing import StandardScaler
+from data_prep import get_train_test_data,get_whole_data,get_unscaled_data
 from sklearn.model_selection import cross_val_score,cross_validate
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay,f1_score,recall_score,precision_score,accuracy_score
@@ -11,13 +11,9 @@ import pandas as pd
 import numpy as np
 from sklearn.pipeline import Pipeline
 
-X_train,X_test,y_train,y_test = get_data()
+X_train_scaled,X_test_scaled,y_train,y_test = get_train_test_data()
 
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-joblib.dump(scaler,'./models/scaler.pkl')
+X_train,X_test = get_unscaled_data()
 
 logistic_model = LogisticRegression()
 logistic_model.fit(X_train_scaled,y_train)
