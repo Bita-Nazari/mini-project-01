@@ -286,3 +286,5 @@ Logistic_regression_result_ht_df = pd.DataFrame({
 print(Logistic_regression_result_ht_df)
 
 #endregion
+
+joblib.dump(decision_tree_model,'./models/model.pkl')
