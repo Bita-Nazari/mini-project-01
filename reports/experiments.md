@@ -298,6 +298,63 @@ It is true that Recall is our most important criterion in this project, but this
 Therefore, my choice is the first method, the method without weighting.
 
 
+## 7. Experiment 03: Feature Selection
+
+### 7.1 Feature Importance
+
+At this stage, we intend to try to select the most effective features in training the model.
+
+Since Random Forest is currently selected as the model, we select the important features according to this model using:
+
+```python
+model.feature_importances_
+```
+
+According to the results obtained, the importance of each feature is determined. Based on the results, V17 is the most important feature.
+
+The feature importance values are:
+
+```text
+[0.00564158 0.00742255 0.00763433 0.01190255 0.02872176 0.00800408
+ 0.01718152 0.02935361 0.01325496 0.03049093 0.12849721 0.06064548
+ 0.12828836 0.00367727 0.14990513 0.00485518 0.06862350 0.17676839
+ 0.02395539 0.00622665 0.00717190 0.01699604 0.00584957 0.00445719
+ 0.00601504 0.00422686 0.01941772 0.01062120 0.00695445 0.00723958]
+```
+
+### 7.2 Selecting the Number of Features
+
+Since the importance is not the only criterion and some features may have low importance but their existence is necessary for the model to perform better, at this stage, it should be done in multiple stages.
+
+Let's try different numbers of important features on the model to find out which of the features can give the model better performance.
+
+### 7.3 Comparison of Feature Sets
+
+In the different tests that were conducted, almost all the results were similar, but in three cases the model performed very slightly better.
+
+The three selected cases were:
+
+**Top 7**
+
+![Confusion Matrix 7](../images/FeauterSelection_Images/top7.png)
+
+**Top 11**
+
+![Confusion Matrix 11](../images/FeauterSelection_Images/top11.png)
+
+**Top 20**
+
+![Confusion Matrix 20](../images/FeauterSelection_Images/top20.png)
+
+These results correspond to using 7, 11, and 20 features.
+
+### 7.4 Analysis of the Results
+
+All three have detected 70 fraudulent transactions in this test, but in the 20-feature set, the number of non-fraudulent transactions that are detected incorrectly (FP) is less than in the other two feature sets.
+
+So, the first 20 important features are selected as the final features.
+
+
 
 
 
