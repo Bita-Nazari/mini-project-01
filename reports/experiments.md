@@ -356,6 +356,49 @@ So, the first 20 important features are selected as the final features.
 
 
 
+## 8. Experiment 04: Training the Model with Selected Features
 
+### 8.1 Experiment Objective
+
+In the previous section, we selected the first 20 important features as input features. Now, we are going to compare the cross-validation results of different models before and after feature selection.
+
+### 8.2 Output Without Feature Selection
+
+The cross-validation results without feature selection are as follows:
+
+
+| Model | Mean Accuracy | Mean Recall | Mean Precision | Mean F1 |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 0.999129 | 0.589474 | 0.869811 | 0.680979 |
+| KNN Model | 0.999285 | 0.729115 | 0.848228 | 0.775246 |
+| Decision Tree | 0.800666 | 0.777828 | 0.723140 | 0.642955 |
+| Random Forest | 0.998957 | 0.729272 | 0.830073 | 0.737665 |
+
+### 8.3 Output with Feature Selection
+
+After applying feature selection and using the first 20 important features, the cross-validation results are as follows:
+
+| Model | Mean Accuracy | Mean Recall | Mean Precision | Mean F1 |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 0.999147 | 0.602105 | 0.870749 | 0.688897 |
+| KNN Model | 0.999299 | 0.720761 | 0.861720 | 0.775744 |
+| Decision Tree | 0.800634 | 0.752408 | 0.721476 | 0.629726 |
+| Random Forest | 0.803147 | 0.743987 | 0.760287 | 0.635119 |
+
+### 8.4 Comparison of the Results
+
+As is clear from the results, the effect of feature selection differs between the models.
+
+For Logistic Regression, feature selection improved all four evaluation metrics. For KNN, Accuracy, Precision, and F1 score improved slightly, while Recall decreased slightly.
+
+For Decision Tree, Recall, Accuracy, and F1 score decreased slightly after feature selection, while Precision remained relatively similar.
+
+For Random Forest, Recall increased from `0.729272` to `0.743987` after feature selection. This improvement in Recall means that the model was able to detect more fraudulent transactions. However, this improvement came at the cost of a decrease in Precision and F1 score.
+
+Since the main objective of this project is fraud detection, Recall is considered the most important evaluation metric. A higher Recall means that fewer fraudulent transactions are missed by the model. Therefore, the increase in Recall for Random Forest is important for this project.
+
+Random Forest was selected for further experiments because it was the model selected in the previous experiment based on its highest F1 score in cross-validation. In addition, after feature selection, its Recall increased from `0.729272` to `0.743987`.
+
+Therefore, the Random Forest model with the selected 20 features was retained for the following experiments, with Recall considered the primary evaluation criterion. The decrease in Precision and F1 score will be considered in the following experiments when further improving the model.
 
 
