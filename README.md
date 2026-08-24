@@ -35,3 +35,13 @@ despite what i said before testing the models ,logistic regression didnt work we
 the base of this problem is that we could detect fraud transaction, so in this case recall is the most important metric for us,and its important for us to find more and more fraud transactions even ,if predict some of them wrong ,based on this opinion decision tree its the better choice
 
 Decision Tree has a higher Recall but lower Precision than KNN. it detects more actual fraud transactions, but it also classifies more legitimate transactions as fraud.
+
+with more experiments Random Forest worked better than the other
+
+For a fraud detection system, the threshold should be selected according to the main objective of the project.
+
+When the threshold decreases, the model becomes more likely to classify a transaction as fraudulent. Therefore, Recall increases and more fraudulent transactions are detected.
+
+However, decreasing the threshold also increases the number of transactions that are incorrectly classified as fraudulent, which causes Precision to decrease.
+
+SIts true recall is very important but we have to have balanced model too , good realation between recall and percision i think its better to use 0.5 treshold for random forest model.
