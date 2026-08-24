@@ -158,7 +158,7 @@ The sampling techniques used in this project were:
 * SMOTE-Tomek
 
 
-# First Experiment: Baseline Experiment
+# 5 First Experiment: Baseline Experiment
 
 At this stage, we evaluate the performance of the models on the data without applying any special settings or optimization.
 
@@ -168,7 +168,7 @@ At this stage, we examine the evaluation metrics, including Recall, Precision, F
 
 The initial results obtained from a specific split of the data for each model are as follows:
 
-### Accuracy
+### 5.1 Accuracy
 
 | Model               | Accuracy Train | Accuracy Test |
 | ------------------- | -------------: | ------------: |
@@ -177,7 +177,7 @@ The initial results obtained from a specific split of the data for each model ar
 | Decision Tree       |       0.999612 |      0.999330 |
 | Random Forest       |       0.999546 |      0.999436 |
 
-### Precision
+### 5.2 Precision
 
 | Model               | Precision Train | Precision Test |
 | ------------------- | --------------: | -------------: |
@@ -186,7 +186,7 @@ The initial results obtained from a specific split of the data for each model ar
 | Decision Tree       |        0.942073 |       0.880000 |
 | Random Forest       |        0.943662 |       0.943662 |
 
-### Recall
+### 5.3 Recall
 
 | Model               | Recall Train | Recall Test |
 | ------------------- | -----------: | ----------: |
@@ -195,7 +195,7 @@ The initial results obtained from a specific split of the data for each model ar
 | Decision Tree       |     0.817460 |    0.694737 |
 | Random Forest       |     0.761905 |    0.705263 |
 
-### F1 Score
+### 5.4 F1 Score
 
 | Model               | F1 Train |  F1 Test |
 | ------------------- | -------: | -------: |
@@ -204,14 +204,14 @@ The initial results obtained from a specific split of the data for each model ar
 | Decision Tree       | 0.875354 | 0.776471 |
 | Random Forest       | 0.848306 | 0.807229 |
 
-## Confusion Matrix Results
+###  5.5 Confusion Matrix Results
 
 ### Logistic Regression Model
 
 ![Logistic Regression Confusion Matrix](../images/BaseLineExperiment_Images/LG_WithoutFeatureScaling_CM.png)
 
 ### KNN Model
-png
+
 ![KNN Confusion Matrix](../images/BaseLineExperiment_Images/KNN_WithoutFeatureScaling_CM.png)
 
 ### Decision Tree Model
@@ -224,7 +224,7 @@ png
 
 However, since these results were obtained from a specific split of the data, they may not be completely reliable. Therefore, cross-validation is necessary to obtain a more reliable evaluation of the models' performance.
 
-## Cross-Validation Results
+### 5.6 Cross-Validation Results
 
 The results of cross-validation are as follows:
 
@@ -238,6 +238,65 @@ The results of cross-validation are as follows:
 Based on the cross-validation results, all models performed worse than in the initial single-split evaluation. Among the evaluated models, the Random Forest model achieved the best overall performance in cross-validation.
 
 Therefore, the Random Forest model was selected for further experiments.
+
+
+## 6. Experiment 02: Class Weight
+
+### 6.1 Experiment Objective
+
+We observed the results without feature selection.
+
+Since the model is highly imbalanced, one of the methods that can be applied is `class_weight='balanced'`.
+
+In this method, the model assigns more weight to the class that has fewer examples, which in this case is class 1 (Fraud).
+
+Therefore, it is worth examining the performance of the model in both cases.
+
+The Random Forest model was selected for further experiments because it achieved the highest F1 score in cross-validation.
+
+### 6.2 Comparison of Normal and Weighted Methods
+
+In the first stage, I compared the model in two ways:
+
+1. Normal
+2. Weighted
+
+The purpose of this comparison was to examine the difference in model performance between the normal mode and the mode using:
+
+```python
+class_weight='balanced'
+```
+
+In the second method, when `class_weight='balanced'` is applied, the model gives more importance to the samples belonging to the minority class, which in this case is class 1 (Fraud).
+
+The advantage of this approach is that the Recall can increase, allowing more fraudulent transactions to be detected.
+
+### 6.3 Results
+
+The results obtained in both cases are as follows:
+
+**Method 1: Normal**
+
+![Not Balanced Data](../images/ClassWeight_Images/weight_notbalanced.png)
+
+**Method 2: Weighted**
+
+![Balanced Data](../images/ClassWeight_Images/weight_balanced.png)
+
+### 6.4 Analysis of the Results
+
+As is clear from the results obtained, in the second method, both TP and FP have increased. This indicates that with weighting, Recall increases while Precision decreases sharply.
+
+However, without weighting, although the Recall value is relatively lower and there are fewer TP values, there are also fewer FP values. Therefore, the Precision and Recall values are closer to each other, resulting in a more balanced model performance.
+
+### 6.5 Conclusion
+
+Based on the conclusion drawn from this section, my choice here is the method that provides a more balanced Precision and Recall.
+
+It is true that Recall is our most important criterion in this project, but this improvement in Recall should not come at the cost of a very low Precision and an unbalanced model performance.
+
+Therefore, my choice is the first method, the method without weighting.
+
 
 
 
