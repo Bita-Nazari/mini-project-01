@@ -147,15 +147,7 @@ The sampling techniques used in this project were:
 ### Oversampling
 
 * SMOTE
-* ADASYN
 
-### Undersampling / Data Cleaning
-
-* Tomek Links
-
-### Combined Sampling
-
-* SMOTE-Tomek
 
 
 # 5 First Experiment: Baseline Experiment
@@ -401,4 +393,371 @@ Random Forest was selected for further experiments because it was the model sele
 
 Therefore, the Random Forest model with the selected 20 features was retained for the following experiments, with Recall considered the primary evaluation criterion. The decrease in Precision and F1 score will be considered in the following experiments when further improving the model.
 
+## 9. Experiment 05: Hyperparameters
 
+### 9.1 Experiment Objective
+
+In this step, we want to test the models with different parameters and compare the output results.
+
+The following parameters were tested:
+
+* KNN → `n_neighbors = [1, 5, 20]`
+* Decision Tree → `max_depth = [2, 5, 10, 7, 20, None]`
+* Random Forest → `max_depth = [2, 5, 10, 7, 20, None]`
+* Logistic Regression → `threshold = [0.3, 0.5, 0.6, 0.7]`
+* Decision Tree → `threshold = [0.3, 0.5, 0.6, 0.7]`
+* Random Forest → `threshold = [0.3, 0.5, 0.6, 0.7]`
+
+### 9.2 KNN with Different Numbers of Neighbors
+
+The results obtained by changing the number of neighbors are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               1 |  0.809524 | 0.715789 | 0.759777 |
+|               5 |  0.956522 | 0.694737 | 0.804878 |
+|              20 |  0.915493 | 0.684211 | 0.783133 |
+
+The model performance changes with changing the number of neighbors.
+
+When the number of neighbors is equal to 1, the model performance becomes more fluctuating. As the number of neighbors increases, the model performance becomes more stable.
+
+Since Recall is the most important criterion in this project, `n_neighbors=1` provides the highest Recall. However, `n_neighbors=5` provides the highest F1 score and Precision.
+
+### 9.3 Decision Tree with Different Maximum Depths
+
+The results obtained by changing the maximum depth are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               2 |  0.835443 | 0.694737 | 0.758621 |
+|               5 |  0.868421 | 0.694737 | 0.771930 |
+|              10 |  0.857143 | 0.694737 | 0.767442 |
+|               7 |  0.890411 | 0.684211 | 0.773810 |
+|              20 |  0.800000 | 0.673684 | 0.731429 |
+|            None |  0.783133 | 0.684211 | 0.730337 |
+
+The Recall is the same for maximum depths of 2, 5, and 10. However, the highest F1 score is obtained with `max_depth=7`.
+
+As the maximum depth increases beyond this point, the Recall decreases and the overall model performance becomes lower.
+
+Therefore, `max_depth=7` provides the best balance between Precision, Recall, and F1 score for the Decision Tree model.
+
+### 9.4 Random Forest with Different Maximum Depths
+
+The results obtained by changing the maximum depth are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               2 |  0.835443 | 0.694737 | 0.758621 |
+|               5 |  0.868421 | 0.694737 | 0.771930 |
+|              10 |  0.857143 | 0.694737 | 0.767442 |
+|               7 |  0.890411 | 0.684211 | 0.773810 |
+|              20 |  0.800000 | 0.673684 | 0.731429 |
+|            None |  0.783133 | 0.684211 | 0.730337 |
+
+The results show that increasing the maximum depth does not always improve the model performance.
+
+The highest Recall is obtained with `max_depth=2`, `5`, or `10`, while `max_depth=7` provides the highest F1 score.
+
+Therefore, considering Recall as the main criterion, a smaller maximum depth provides a better result for this experiment.
+
+### 9.5 Logistic Regression with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.835616 | 0.642105 | 0.726190 |
+|       0.5 |  0.843750 | 0.568421 | 0.679245 |
+|       0.6 |  0.836066 | 0.536842 | 0.653846 |
+|       0.7 |  0.842105 | 0.505263 | 0.631579 |
+
+As the threshold decreases, the Recall increases.
+
+When the threshold changes from `0.7` to `0.3`, the Recall increases from `0.505263` to `0.642105`. This means that more fraudulent transactions are detected.
+
+However, the Precision slightly decreases as the threshold decreases.
+
+Since Recall is the most important criterion in this project, `threshold=0.3` provides the best result for Logistic Regression.
+
+### 9.6 Decision Tree with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.868421 | 0.694737 | 0.771930 |
+|       0.5 |  0.878378 | 0.684211 | 0.769231 |
+|       0.6 |  0.902778 | 0.684211 | 0.778443 |
+|       0.7 |  0.902778 | 0.684211 | 0.778443 |
+
+When the threshold decreases from `0.7` to `0.3`, the Recall increases from `0.684211` to `0.694737`.
+
+However, Precision decreases from `0.902778` to `0.868421`.
+
+Therefore, `threshold=0.3` provides the highest Recall, while higher thresholds provide higher Precision.
+
+Since Recall is more important in this project, `threshold=0.3` is preferred for the Decision Tree model.
+
+### 9.7 Random Forest with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.878049 | 0.757895 | 0.813559 |
+|       0.5 |  0.971831 | 0.726316 | 0.831325 |
+|       0.6 |  0.984848 | 0.684211 | 0.807453 |
+|       0.7 |  0.983871 | 0.642105 | 0.777070 |
+
+When the threshold decreases, the Recall increases.
+
+At `threshold=0.3`, the Recall reaches `0.757895`, which is the highest Recall among the tested thresholds. This means that more fraudulent transactions are detected.
+
+However, Precision decreases from `0.971831` at threshold `0.5` to `0.878049` at threshold `0.3`.
+
+The F1 score also changes with the threshold. The highest F1 score is obtained at `threshold=0.5`, with a value of `0.831325`.
+
+## 9. Experiment 05: Hyperparameters
+
+### 9.1 Experiment Objective
+
+In this step, we want to test the models with different parameters and compare the output results.
+
+The following parameters were tested:
+
+* KNN → `n_neighbors = [1, 5, 20]`
+* Decision Tree → `max_depth = [2, 5, 10, 7, 20, None]`
+* Random Forest → `max_depth = [2, 5, 10, 7, 20, None]`
+* Logistic Regression → `threshold = [0.3, 0.5, 0.6, 0.7]`
+* Decision Tree → `threshold = [0.3, 0.5, 0.6, 0.7]`
+* Random Forest → `threshold = [0.3, 0.5, 0.6, 0.7]`
+
+### 9.2 KNN with Different Numbers of Neighbors
+
+The results obtained by changing the number of neighbors are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               1 |  0.809524 | 0.715789 | 0.759777 |
+|               5 |  0.956522 | 0.694737 | 0.804878 |
+|              20 |  0.915493 | 0.684211 | 0.783133 |
+
+The model performance changes with changing the number of neighbors.
+
+When the number of neighbors is equal to 1, the model performance becomes more fluctuating. As the number of neighbors increases, the model performance becomes more stable.
+
+Since Recall is the most important criterion in this project, `n_neighbors=1` provides the highest Recall. However, `n_neighbors=5` provides the highest F1 score and Precision.
+
+### 9.3 Decision Tree with Different Maximum Depths
+
+The results obtained by changing the maximum depth are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               2 |  0.835443 | 0.694737 | 0.758621 |
+|               5 |  0.868421 | 0.694737 | 0.771930 |
+|              10 |  0.857143 | 0.694737 | 0.767442 |
+|               7 |  0.890411 | 0.684211 | 0.773810 |
+|              20 |  0.800000 | 0.673684 | 0.731429 |
+|            None |  0.783133 | 0.684211 | 0.730337 |
+
+The Recall is the same for maximum depths of 2, 5, and 10. However, the highest F1 score is obtained with `max_depth=7`.
+
+As the maximum depth increases beyond this point, the Recall decreases and the overall model performance becomes lower.
+
+Therefore, `max_depth=7` provides the best balance between Precision, Recall, and F1 score for the Decision Tree model.
+
+### 9.4 Random Forest with Different Maximum Depths
+
+The results obtained by changing the maximum depth are:
+
+| Parameter Value | Precision |   Recall |       F1 |
+| --------------: | --------: | -------: | -------: |
+|               2 |  0.835443 | 0.694737 | 0.758621 |
+|               5 |  0.868421 | 0.694737 | 0.771930 |
+|              10 |  0.857143 | 0.694737 | 0.767442 |
+|               7 |  0.890411 | 0.684211 | 0.773810 |
+|              20 |  0.800000 | 0.673684 | 0.731429 |
+|            None |  0.783133 | 0.684211 | 0.730337 |
+
+The results show that increasing the maximum depth does not always improve the model performance.
+
+The highest Recall is obtained with `max_depth=2`, `5`, or `10`, while `max_depth=7` provides the highest F1 score.
+
+Therefore, considering Recall as the main criterion, a smaller maximum depth provides a better result for this experiment.
+
+### 9.5 Logistic Regression with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.835616 | 0.642105 | 0.726190 |
+|       0.5 |  0.843750 | 0.568421 | 0.679245 |
+|       0.6 |  0.836066 | 0.536842 | 0.653846 |
+|       0.7 |  0.842105 | 0.505263 | 0.631579 |
+
+As the threshold decreases, the Recall increases.
+
+When the threshold changes from `0.7` to `0.3`, the Recall increases from `0.505263` to `0.642105`. This means that more fraudulent transactions are detected.
+
+However, the Precision slightly decreases as the threshold decreases.
+
+Since Recall is the most important criterion in this project, `threshold=0.3` provides the best result for Logistic Regression.
+
+### 9.6 Decision Tree with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.868421 | 0.694737 | 0.771930 |
+|       0.5 |  0.878378 | 0.684211 | 0.769231 |
+|       0.6 |  0.902778 | 0.684211 | 0.778443 |
+|       0.7 |  0.902778 | 0.684211 | 0.778443 |
+
+When the threshold decreases from `0.7` to `0.3`, the Recall increases from `0.684211` to `0.694737`.
+
+However, Precision decreases from `0.902778` to `0.868421`.
+
+Therefore, `threshold=0.3` provides the highest Recall, while higher thresholds provide higher Precision.
+
+Since Recall is more important in this project, `threshold=0.3` is preferred for the Decision Tree model.
+
+### 9.7 Random Forest with Different Thresholds
+
+The results obtained by changing the threshold are:
+
+| Threshold | Precision |   Recall |       F1 |
+| --------: | --------: | -------: | -------: |
+|       0.3 |  0.878049 | 0.757895 | 0.813559 |
+|       0.5 |  0.971831 | 0.726316 | 0.831325 |
+|       0.6 |  0.984848 | 0.684211 | 0.807453 |
+|       0.7 |  0.983871 | 0.642105 | 0.777070 |
+
+When the threshold decreases, the Recall increases.
+
+At `threshold=0.3`, the Recall reaches `0.757895`, which is the highest Recall among the tested thresholds. This means that more fraudulent transactions are detected.
+
+However, Precision decreases from `0.971831` at threshold `0.5` to `0.878049` at threshold `0.3`.
+
+The F1 score also changes with the threshold. The highest F1 score is obtained at `threshold=0.5`, with a value of `0.831325`.
+
+
+
+## 10. SMOTE
+
+SMOTE (Synthetic Minority Over-sampling Technique) is an oversampling method used to address class imbalance by generating synthetic samples for the minority class.
+
+Based on the results obtained from the previous experiments, Random Forest was selected for further evaluation with SMOTE. In this experiment, different values of `sampling_strategy`, maximum depth, and classification threshold were tested. The Random Forest model was evaluated with `max_depth = 5` and `7`, `max_leaf_nodes = 10`, and thresholds of `0.3`, `0.5`, and `0.6`.
+
+Two sampling strategies were evaluated:
+
+* `sampling_strategy = 0.06`
+* `sampling_strategy = 0.1`
+
+The main objective was to find a suitable trade-off between precision and recall while giving higher priority to recall, since correctly identifying fraudulent transactions is more important in this problem. The target was to achieve a recall of approximately 0.83 or higher while maintaining an acceptable precision.
+
+### Threshold: 0.3, Max Depth: 5, Sampling Strategy: 0.06
+
+| Threshold | Mean Precision | Mean Recall |  Mean F1 |
+| --------- | -------------: | ----------: | -------: |
+| 0.3       |       0.700471 |    0.839261 | 0.763430 |
+| 0.5       |       0.762556 |    0.828690 | 0.793959 |
+| 0.6       |       0.808807 |    0.811803 | 0.809721 |
+
+### Threshold: 0.3, Max Depth: 5, Sampling Strategy: 0.1
+
+| Threshold | Mean Precision | Mean Recall |  Mean F1 |
+| --------- | -------------: | ----------: | -------: |
+| 0.3       |       0.647531 |    0.841389 | 0.731568 |
+| 0.5       |       0.741482 |    0.830840 | 0.783215 |
+| 0.6       |       0.793746 |    0.822352 | 0.806969 |
+
+### Max Depth: 7, Sampling Strategy: 0.06
+
+| Threshold | Mean Precision | Mean Recall |  Mean F1 |
+| --------- | -------------: | ----------: | -------: |
+| 0.3       |       0.693325 |    0.839261 | 0.759100 |
+| 0.5       |       0.757077 |    0.830795 | 0.791940 |
+| 0.6       |       0.813267 |    0.816013 | 0.814017 |
+
+### Max Depth: 5, Sampling Strategy: 0.1
+
+| Threshold | Mean Precision | Mean Recall |  Mean F1 |
+| --------- | -------------: | ----------: | -------: |
+| 0.3       |       0.643625 |    0.841389 | 0.729055 |
+| 0.5       |       0.741639 |    0.835050 | 0.785415 |
+| 0.6       |       0.788814 |    0.824479 | 0.805512 |
+
+The results show a clear trade-off between precision and recall as the classification threshold changes. At a threshold of `0.3`, the models achieve the highest recall, but this comes at the cost of a considerable decrease in precision. This means that although more fraudulent transactions are detected, the model also produces more false-positive predictions.
+
+At a threshold of `0.6`, precision increases while recall decreases. The difference between precision and recall becomes smaller, resulting in a more balanced performance. For example, with `max_depth = 7` and `sampling_strategy = 0.06`, the model achieves a mean precision of `0.813267` and a mean recall of `0.816013`, with an F1-score of `0.814017`.
+
+A threshold of `0.5` provides an intermediate trade-off. In several configurations, recall remains close to or above the target of `0.83 while precision is higher than at a threshold of `0.3`. Since detecting fraudulent transactions is the primary objective, maintaining a relatively high recall is more important than maximizing precision alone.
+
+Therefore, the results indicate that a threshold of `0.5` provides a reasonable compromise between detecting fraudulent transactions and limiting false-positive predictions. However, the final model and configuration will be selected after comparing these results with the results of all previous experiments.
+
+
+# 11. Final Model Selection
+
+## 11.1 Model Selection
+
+Based on the experimental results, Random Forest was selected as the final model. Although KNN achieved a higher F1 score in some experiments, Random Forest provided a suitable balance between Precision and Recall.
+
+Since fraud detection is the main objective of the project, Recall was considered the primary evaluation criterion.
+
+## 11.2 Class Weight Experiment
+
+The effect of `class_weight='balanced'` was evaluated. Although class weighting improved Recall, it also increased False Positives and reduced Precision.
+
+Therefore, the unweighted Random Forest model was selected.
+
+## 11.3 Feature Selection
+
+Random Forest feature importance was used to select the most important features. The 20-feature configuration provided a suitable balance between Recall and False Positives.
+
+After feature selection, Recall increased from `0.729272` to `0.743987`.
+
+Therefore, the first 20 important features were selected.
+
+## 11.4 Hyperparameter and Sampling Experiments
+
+Different `max_depth` values and sampling strategies were evaluated. Based on the experimental results, `max_depth=7` and `max_leaf_nodes=10` were selected.
+
+SMOTE was also applied to address class imbalance. The selected sampling strategy was:
+
+```python
+sm = SMOTE(sampling_strategy=0.06)
+```
+
+## 11.5 Decision Threshold
+
+Different decision thresholds were evaluated to find a suitable balance between Precision and Recall.
+
+Although lower thresholds improved Recall, they also increased False Positives. Based on the overall experimental results, a threshold of `0.5` was selected.
+
+## 11.6 Final Model Configuration
+
+The final configuration was:
+
+```python
+model = RandomForestClassifier(max_depth=7, max_leaf_nodes=10)
+
+sm = SMOTE(sampling_strategy=0.06)
+
+threshold = 0.5
+```
+
+The final model uses:
+
+* Random Forest
+* The first 20 important features
+* `max_depth=7`
+* `max_leaf_nodes=10`
+* SMOTE with `sampling_strategy=0.06`
+* Decision threshold of `0.5`
+
+Overall, the final configuration was selected to prioritize Recall while maintaining an acceptable level of Precision.
