@@ -761,3 +761,16 @@ The final model uses:
 * Decision threshold of `0.5`
 
 Overall, the final configuration was selected to prioritize Recall while maintaining an acceptable level of Precision.
+
+
+### Question 1
+
+Accuracy is a misleading metric for this dataset because it is highly imbalanced. Since legitimate transactions make up the vast majority of the data, a model can achieve high accuracy by correctly classifying most legitimate transactions while still failing to detect a significant number of fraudulent transactions.
+
+### Question 2
+
+There is a trade-off between recall and precision. As the model detects more fraudulent transactions, recall increases, but it may also classify more legitimate transactions as fraudulent, increasing false positives and causing precision to decrease. Therefore, finding a suitable balance between detecting fraud and avoiding false alarms is important.
+
+### Question 3
+
+With one additional week, I would explore additional techniques to improve the fraud detection system, including further handling of class imbalance and experimenting with different models and thresholds. I also used the additional time to train and evaluate a deep learning model to investigate whether it could improve fraud detection performance.
